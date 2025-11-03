@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Campus Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="map"></div>
+    <div id="layer-control">
+        <h3>图层控制</h3>
+        <div class="layer-section">
+            <h4>底图</h4>
+            <label><input type="radio" name="basemap" value="osm" checked> OpenStreetMap</label>
+            <label><input type="radio" name="basemap" value="google-satellite"> Google 卫星影像</label>
+            <label><input type="radio" name="basemap" value="google-roadmap"> Google 地图</label>
+        </div>
+        <div class="layer-section">
+            <h4>数据图层</h4>
+            <label><input type="checkbox" id="layer-boundary" checked> 范围边界</label>
+            <label><input type="checkbox" id="layer-buildings" checked> 建筑物</label>
+            <label><input type="checkbox" id="layer-countries" checked> 国家</label>
+            <label><input type="checkbox" id="layer-user-points" checked> 用户兴趣点</label>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
