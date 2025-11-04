@@ -4,17 +4,15 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Node (optional, if you build; remove if no build step)
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
