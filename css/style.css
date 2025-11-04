@@ -1,0 +1,368 @@
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* Map container */
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+}
+
+/* Collapsible panel styles */
+.collapsible-panel {
+    position: absolute;
+    /* background: white; */
+    background: rgba(255,255,255,0.6); 
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.collapsible-panel.collapsed .panel-content {
+    display: none;
+}
+
+.collapsible-panel.collapsed {
+    max-height: 60px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px; 
+    padding: 10px 20px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 2px solid #3498db;
+    transition: background-color 0.2s;
+}
+
+.panel-header:hover {
+    background-color: #f8f9fa;
+    border-radius: 3px 3px 0 0;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.toggle-icon {
+    font-size: 14px;
+    color: #7f8c8d;
+    transition: transform 0.3s ease;
+}
+
+/* Menu (text links) placed next to title */
+.menu-icon {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-icon .nav-holder {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.menu-icon .nav-holder a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.18s, color 0.18s;
+}
+
+.menu-icon .nav-holder a:hover {
+    background-color: rgba(0,0,0,0.06);
+    color: #111;
+}
+
+/* 小屏幕时隐藏具体链接，显示单一 Menu 文本 */
+@media (max-width: 560px) {
+    .menu-icon .nav-holder a {
+        display: none;
+    }
+    .menu-icon .nav-holder::before {
+        content: "Menu";
+        display: inline-block;
+        color: #2c3e50;
+        font-weight: 600;
+        padding: 6px 10px;
+    }
+}
+
+.collapsible-panel.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.panel-content {
+    background: transparent;
+    padding: 15px 20px 20px;
+    max-height: calc(80vh - 60px);
+    overflow-y: auto;
+}
+
+/* 顶栏标题样式 */
+.site-header {
+    -webkit-transition: transform 500ms ease;
+    -moz-transition: transform 500ms ease;
+    -ms-transition: transform 500ms ease;
+    transition: transform 500ms ease;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 15px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;         /* header 高度，若改这里也要改下面的 #map top/height */
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.95); /* 可改为半透明或渐变 */
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 顶栏内标题样式 */
+.site-header .site-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* 调整地图位置与高度，避免被顶栏遮挡 */
+#map {
+    position: absolute;
+    top: 50px;                    /* 与 .site-header height 保持一致 */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 56px);   /* 减去顶栏高度 */
+    z-index: 0;
+}
+
+/* 移动端自适应（可选） */
+@media (max-width: 768px) {
+    .header { height: 48px; padding: 12px 18px; }
+    #map    { top: 48px; height: calc(100vh - 48px); }
+}
+
+/* Layer Control Panel */
+#layer-control {
+    top: 60px;
+    right: 20px;
+    max-width: 280px;
+}
+
+#layer-control h4 {
+    margin: 10px 0 10px 0;
+    font-size: 14px;
+    color: #7f8c8d;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.layer-section {
+    margin-bottom: 8px;
+}
+
+.layer-section:last-child {
+    margin-bottom: 0;
+}
+
+.layer-section label {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 0px;
+    transition: background-color 0.2s;
+}
+
+.layer-section label:hover {
+    background-color: #ecf0f1;
+}
+
+.layer-section input[type="radio"],
+.layer-section input[type="checkbox"] {
+    margin-right: 4px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.layer-section span {
+    font-size: 14px;
+    color: #34495e;
+}
+
+/* Legend styles */
+.legend {
+    margin-top: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 6px 0;
+    font-size: 13px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 3px;
+    border: 1px solid #bdc3c7;
+}
+
+/* Info Panel */
+#info-panel {
+    bottom: 30px;
+    left: 20px;
+    max-width: 350px;
+}
+
+#info-content {
+    font-size: 14px;
+    color: #34495e;
+    line-height: 1.6;
+}
+
+#info-content p {
+    margin: 10px 0;
+}
+
+#info-content strong {
+    color: #2c3e50;
+}
+
+/* 加载指示器 */
+#loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px 40px;
+    border-radius: 3px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    text-align: center;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading p {
+    color: #2c3e50;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Leaflet 弹出窗口自定义样式 */
+.leaflet-popup-content-wrapper {
+    border-radius: 3px;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.3);
+}
+
+.leaflet-popup-content {
+    margin: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.leaflet-popup-content h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+.popup-content {
+    max-width: 300px;
+}
+
+.popup-content p {
+    margin: 5px 0;
+}
+
+.popup-content strong {
+    color: #2c3e50;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    #layer-control {
+        top: 10px;
+        right: 10px;
+        max-width: 240px;
+        padding: 15px;
+    }
+    
+    #info-panel {
+        bottom: 10px;
+        left: 10px;
+        max-width: 280px;
+        padding: 15px;
+    }
+    
+    #layer-control h3,
+    #info-panel h3 {
+        font-size: 16px;
+    }
+}
+
+/* 滚动条样式 */
+#layer-control::-webkit-scrollbar,
+#info-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+#layer-control::-webkit-scrollbar-track,
+#info-panel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 0px;
+}
+
+#layer-control::-webkit-scrollbar-thumb,
+#info-panel::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    border-radius: 5%;
+}
+
+#layer-control::-webkit-scrollbar-thumb:hover,
+#info-panel::-webkit-scrollbar-thumb:hover {
+    background: #95a5a6;
+}
