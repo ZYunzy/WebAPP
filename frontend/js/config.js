@@ -1,9 +1,18 @@
-// 配置文件
+// Configuration file
 const CONFIG = {
-    // API 配置
-    api: {
-        useLocal: false, // 设为 true 使用本地 API，false 使用 GitHub 上的静态数据
-        localUrl: 'http://localhost:5000',
+    // API Configuration
+    // api: {
+    //     useLocal: false, // Set to true to use local API, false to use static data from GitHub
+    //     localUrl: 'http://localhost:5000',
+    //     endpoints: {
+    //         slums: '/api/slums',
+    //         buildings: '/api/buildings',
+    //         infrastructure: '/api/infrastructure',
+    //         population: '/api/population'
+    //     }
+        api: {
+        useLocal: true, // 切换为 true 使用你的后端
+        localUrl: 'http://10.13.154.182:8080', // <-- 把这里改为你的后端地址和端口
         endpoints: {
             slums: '/api/slums',
             buildings: '/api/buildings',
@@ -12,17 +21,17 @@ const CONFIG = {
         }
     },
     
-    // 地图初始配置
+    // Initial Map Configuration
     map: {
-        // center: [28.6139, 77.2090], // 新德里坐标（可以改为您的目标城市）
+        // center: [28.6139, 77.2090], // New Delhi coordinates (change to your target city)
         // center: [-1.314, 36.790], // Nairobi coordinates
-        center: [5.548, -0.218],
+        center: [5.548, -0.218], // Accra coordinates
         zoom: 12,
         minZoom: 3,
-        maxZoom: 18
+        maxZoom: 22
     },
     
-    // 底图图层配置
+    // Basemap Layer Configuration
     basemaps: {
         osm: {
             name: 'OpenStreetMap',
@@ -31,26 +40,28 @@ const CONFIG = {
             maxZoom: 19
         },
         satellite: {
-            name: '卫星影像',
-            url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-            maxZoom: 18
+            name: 'Satellite Imagery',
+            url: 'https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+            attribution: '&copy; Google',
+            maxZoom: 22,
+            detectRetina: true,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
         },
         terrain: {
-            name: '地形图',
+            name: 'Terrain Map',
             url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
             attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
             maxZoom: 17
         },
         dark: {
-            name: '暗色主题',
+            name: 'Dark Theme',
             url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             maxZoom: 19
         }
     },
     
-    // 样式配置
+    // Style Configuration
     styles: {
         slums: {
             color: '#e74c3c',

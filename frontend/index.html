@@ -1,100 +1,122 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>贫民窟地图系统 - Slum Mapping</title>
+    <title>Slum Mapping System</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
           crossorigin=""/>
     
-    <!-- 自定义样式 -->
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- 地图容器 -->
+    <!-- title -->
+    <header class="site-header">
+        <div class="site-title">ATLAS OF URBAN INFORMAL SETTLEMENTS IN THE GLOBAL SOUTH</div>
+        <nav class="menu-icon">
+            <div class="nav-holder">
+                <a href="/countries">Countries</a>
+                <a href="/data">Data</a>
+                <a href="/historical-data">Historical Data</a>
+                <a href="/about">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Map Container -->
     <div id="map"></div>
     
-    <!-- 图层控制面板 -->
-    <div id="layer-control">
-        <h3>🗺️ 图层控制</h3>
-        
-        <!-- 底图选择 -->
-        <div class="layer-section">
-            <h4>底图图层</h4>
-            <label>
-                <input type="radio" name="basemap" value="osm" checked>
-                <span>OpenStreetMap</span>
-            </label>
-            <label>
-                <input type="radio" name="basemap" value="satellite">
-                <span>卫星影像</span>
-            </label>
-            <label>
-                <input type="radio" name="basemap" value="terrain">
-                <span>地形图</span>
-            </label>
-            <label>
-                <input type="radio" name="basemap" value="dark">
-                <span>暗色主题</span>
-            </label>
+    <!-- Layer Control Panel -->
+    <div id="layer-control" class="collapsible-panel">
+        <div class="panel-header" onclick="togglePanel('layer-control')">
+            <h3>🗺️ Layer Control</h3>
+            <span class="toggle-icon">▼</span>
         </div>
-        
-        <!-- 数据图层 -->
-        <div class="layer-section">
-            <h4>数据图层</h4>
-            <label>
-                <input type="checkbox" id="layer-slums" checked>
-                <span>贫民窟区域</span>
-            </label>
-            <label>
-                <input type="checkbox" id="layer-buildings" checked>
-                <span>建筑物</span>
-            </label>
-            <label>
-                <input type="checkbox" id="layer-infrastructure">
-                <span>基础设施</span>
-            </label>
-            <label>
-                <input type="checkbox" id="layer-population">
-                <span>人口密度</span>
-            </label>
-        </div>
-        
-        <!-- 图例 -->
-        <div class="layer-section">
-            <h4>图例</h4>
-            <div class="legend">
-                <div class="legend-item">
-                    <span class="legend-color" style="background: #e74c3c;"></span>
-                    <span>高风险区域</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color" style="background: #f39c12;"></span>
-                    <span>中等风险</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color" style="background: #27ae60;"></span>
-                    <span>低风险区域</span>
+        <div class="panel-content">
+            <!-- Basemap Selection -->
+            <div class="layer-section">
+                <h4>Base Layers</h4>
+                <label>
+                    <input type="radio" name="basemap" value="osm">
+                    <span>OpenStreetMap</span>
+                </label>
+                <label>
+                    <input type="radio" name="basemap" value="satellite" checked>
+                    <span>Satellite Imagery</span>
+                </label>
+                <label>
+                    <input type="radio" name="basemap" value="terrain">
+                    <span>Terrain Map</span>
+                </label>
+                <label>
+                    <input type="radio" name="basemap" value="dark">
+                    <span>Dark Theme</span>
+                </label>
+            </div>
+            
+            <!-- Data Layers -->
+            <div class="layer-section">
+                <h4>Data Layers</h4>
+                <label>
+                    <input type="checkbox" id="layer-slums" checked>
+                    <span>Slum Areas</span>
+                </label>
+                <label>
+                    <input type="checkbox" id="layer-buildings" checked>
+                    <span>Buildings</span>
+                </label>
+                <label>
+                    <input type="checkbox" id="layer-infrastructure">
+                    <span>Infrastructure</span>
+                </label>
+                <label>
+                    <input type="checkbox" id="layer-population">
+                    <span>Population Density</span>
+                </label>
+            </div>
+            
+            <!-- Legend -->
+            <div class="layer-section">
+                <h4>Legend</h4>
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #e74c3c;"></span>
+                        <span>High Risk Area</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #f39c12;"></span>
+                        <span>Medium Risk</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #27ae60;"></span>
+                        <span>Low Risk Area</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- 信息面板 -->
-    <div id="info-panel">
-        <h3>📊 地图信息</h3>
-        <div id="info-content">
-            <p>点击地图上的区域查看详细信息</p>
+    <!-- Info Panel -->
+    <!-- <div id="info-panel" class="collapsible-panel">
+        <div class="panel-header" onclick="togglePanel('info-panel')">
+            <h3>📊 Map Information</h3>
+            <span class="toggle-icon">▼</span>
         </div>
-    </div>
+        <div class="panel-content">
+            <div id="info-content">
+                <p>Click on an area on the map to view details</p>
+            </div>
+        </div>
+    </div> -->
     
-    <!-- 加载指示器 -->
+    <!-- Loading Indicator -->
     <div id="loading" style="display: none;">
         <div class="spinner"></div>
-        <p>加载中...</p>
+        <p>Loading...</p>
     </div>
     
     <!-- Leaflet JS -->

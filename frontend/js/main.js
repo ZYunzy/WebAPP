@@ -1,43 +1,43 @@
-// 主应用程序
+// Main application
 let mapManager;
 let layerManager;
 
-// DOM 加载完成后初始化
+// Initialize after DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('初始化贫民窟地图系统...');
+    console.log('Initializing Slum Mapping System...');
     
-    // 初始化地图
+    // Initialize map
     mapManager = new MapManager();
     mapManager.init();
     
-    // 初始化图层管理器
+    // Initialize layer manager
     layerManager = new LayerManager(mapManager.getMap());
     
-    // 加载默认数据图层
+    // Load default data layers
     loadInitialLayers();
     
-    // 设置事件监听器
+    // Setup event listeners
     setupEventListeners();
     
-    console.log('地图系统初始化完成');
+    console.log('Map system initialized successfully');
 });
 
-// 加载初始图层
+// Load initial layers
 async function loadInitialLayers() {
-    // 加载贫民窟图层（如果有静态数据文件）
+    // Load slum layer (if static data file exists)
     // await layerManager.loadLayer('slums', 'data/slums.geojson');
     
-    // 加载建筑物图层（如果有静态数据文件）
+    // Load buildings layer (if static data file exists)
     // await layerManager.loadLayer('buildings', 'data/buildings.geojson');
     
-    // 如果没有静态数据，将加载模拟数据
+    // If no static data, load mock data
     await layerManager.loadLayer('slums');
     await layerManager.loadLayer('buildings');
 }
 
-// 设置事件监听器
+// Setup event listeners
 function setupEventListeners() {
-    // 底图切换
+    // Basemap switching
     const basemapRadios = document.querySelectorAll('input[name="basemap"]');
     basemapRadios.forEach(radio => {
         radio.addEventListener('change', (e) => {
@@ -45,7 +45,7 @@ function setupEventListeners() {
         });
     });
     
-    // 数据图层切换
+    // Data layer toggling
     const layerCheckboxes = {
         'layer-slums': 'slums',
         'layer-buildings': 'buildings',
@@ -59,7 +59,7 @@ function setupEventListeners() {
             checkbox.addEventListener('change', async (e) => {
                 const isChecked = e.target.checked;
                 
-                // 如果是首次加载该图层
+                // Load layer for the first time if checked
                 if (isChecked && !layerManager.dataLayers[layerName]) {
                     await layerManager.loadLayer(layerName);
                 } else {
@@ -70,6 +70,17 @@ function setupEventListeners() {
     }
 }
 
-// 导出全局函数（可选）
+// Export global functions (optional)
 window.mapManager = mapManager;
 window.layerManager = layerManager;
+
+// Toggle panel collapse/expand
+function togglePanel(panelId) {
+    const panel = document.getElementById(panelId);
+    if (panel) {
+        panel.classList.toggle('collapsed');
+    }
+}
+
+// Make toggle function globally available
+window.togglePanel = togglePanel;

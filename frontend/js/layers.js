@@ -1,4 +1,4 @@
-// 图层管理
+// Layer management
 class LayerManager {
     constructor(map) {
         this.map = map;
@@ -7,7 +7,7 @@ class LayerManager {
         this.initLayerGroups();
     }
     
-    // 初始化图层组
+    // Initialize layer groups
     initLayerGroups() {
         this.layerGroups = {
             slums: L.layerGroup().addTo(this.map),
@@ -17,36 +17,36 @@ class LayerManager {
         };
     }
     
-    // 加载数据图层
+    // Load data layer
     async loadLayer(layerName, dataSource) {
         try {
-            // 显示加载指示器
+            // Show loading indicator
             this.showLoading();
             
             let data;
             
-            // 根据配置决定从哪里加载数据
+            // Decide where to load data from based on configuration
             if (CONFIG.api.useLocal) {
-                // 从本地 API 加载
+                // Load from local API
                 const endpoint = CONFIG.api.endpoints[layerName];
                 const url = `${CONFIG.api.localUrl}${endpoint}`;
                 const response = await fetch(url);
                 data = await response.json();
             } else {
-                // 从静态文件加载（GitHub Pages）
+                // Load from static file (GitHub Pages)
                 if (dataSource) {
                     const response = await fetch(dataSource);
                     data = await response.json();
                 } else {
-                    // 如果没有提供数据源，生成模拟数据
+                    // Generate mock data if no data source provided
                     data = this.generateMockData(layerName);
                 }
             }
             
-            // 清除现有图层
+            // Clear existing layer
             this.layerGroups[layerName].clearLayers();
             
-            // 添加 GeoJSON 数据
+            // Add GeoJSON data
             const geoJsonLayer = L.geoJSON(data, {
                 style: (feature) => this.getStyle(layerName, feature),
                 pointToLayer: (feature, latlng) => this.createMarker(layerName, feature, latlng),
@@ -56,36 +56,36 @@ class LayerManager {
             geoJsonLayer.addTo(this.layerGroups[layerName]);
             this.dataLayers[layerName] = geoJsonLayer;
             
-            // 隐藏加载指示器
+            // Hide loading indicator
             this.hideLoading();
             
             return geoJsonLayer;
             
         } catch (error) {
-            console.error(`加载图层 ${layerName} 失败:`, error);
+            console.error(`Failed to load layer ${layerName}:`, error);
             this.hideLoading();
-            this.showError(`加载 ${layerName} 图层失败`);
+            this.showError(`Failed to load ${layerName} layer`);
         }
     }
     
-    // 生成模拟数据
+    // Generate mock data
     generateMockData(layerName) {
         const center = CONFIG.map.center;
         const features = [];
         
-        // 生成一些随机点或多边形
+        // Generate some random points or polygons
         for (let i = 0; i < 10; i++) {
             const offset = 0.05;
             const lat = center[0] + (Math.random() - 0.5) * offset;
             const lng = center[1] + (Math.random() - 0.5) * offset;
             
             if (layerName === 'buildings') {
-                // 创建建筑物多边形
+                // Create building polygon
                 features.push({
                     type: 'Feature',
                     properties: {
-                        name: `建筑物 ${i + 1}`,
-                        type: '居住建筑',
+                        name: `Building ${i + 1}`,
+                        type: 'Residential',
                         floors: Math.floor(Math.random() * 10) + 1
                     },
                     geometry: {
@@ -100,12 +100,12 @@ class LayerManager {
                     }
                 });
             } else {
-                // 创建点要素
+                // Create point feature
                 features.push({
                     type: 'Feature',
                     properties: {
                         name: `${layerName} ${i + 1}`,
-                        description: `这是一个示例 ${layerName} 点`,
+                        description: `This is a sample ${layerName} point`,
                         value: Math.random() * 100
                     },
                     geometry: {
@@ -122,7 +122,7 @@ class LayerManager {
         };
     }
     
-    // 获取样式
+    // Get style
     getStyle(layerName, feature) {
         return CONFIG.styles[layerName] || {
             color: '#3388ff',
@@ -132,7 +132,7 @@ class LayerManager {
         };
     }
     
-    // 创建标记
+    // Create marker
     createMarker(layerName, feature, latlng) {
         const style = CONFIG.styles[layerName];
         return L.circleMarker(latlng, {
@@ -145,11 +145,11 @@ class LayerManager {
         });
     }
     
-    // 绑定弹出窗口
+    // Bind popup
     bindPopup(feature, layer) {
         if (feature.properties) {
             let content = '<div class="popup-content">';
-            content += `<h4>${feature.properties.name || '未命名'}</h4>`;
+            content += `<h4>${feature.properties.name || 'Unnamed'}</h4>`;
             
             for (const [key, value] of Object.entries(feature.properties)) {
                 if (key !== 'name') {
@@ -160,14 +160,14 @@ class LayerManager {
             content += '</div>';
             layer.bindPopup(content);
             
-            // 点击时更新信息面板
+            // Update info panel on click
             layer.on('click', () => {
                 this.updateInfoPanel(feature.properties);
             });
         }
     }
     
-    // 更新信息面板
+    // Update info panel
     updateInfoPanel(properties) {
         const infoContent = document.getElementById('info-content');
         let html = '';
@@ -179,7 +179,7 @@ class LayerManager {
         infoContent.innerHTML = html;
     }
     
-    // 切换图层显示/隐藏
+    // Toggle layer visibility
     toggleLayer(layerName, show) {
         if (this.layerGroups[layerName]) {
             if (show) {
@@ -190,17 +190,17 @@ class LayerManager {
         }
     }
     
-    // 显示加载指示器
+    // Show loading indicator
     showLoading() {
         document.getElementById('loading').style.display = 'block';
     }
     
-    // 隐藏加载指示器
+    // Hide loading indicator
     hideLoading() {
         document.getElementById('loading').style.display = 'none';
     }
     
-    // 显示错误
+    // Show error
     showError(message) {
         alert(message);
     }

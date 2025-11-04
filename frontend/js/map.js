@@ -1,4 +1,4 @@
-// 地图初始化和管理
+// Map initialization and management
 class MapManager {
     constructor() {
         this.map = null;
@@ -6,9 +6,9 @@ class MapManager {
         this.basemapLayers = {};
     }
     
-    // 初始化地图
+    // Initialize map
     init() {
-        // 创建地图实例
+        // Create map instance
         this.map = L.map('map', {
             center: CONFIG.map.center,
             zoom: CONFIG.map.zoom,
@@ -17,13 +17,13 @@ class MapManager {
             zoomControl: true
         });
         
-        // 创建所有底图图层
+        // Create all basemap layers
         this.createBasemapLayers();
         
-        // 添加默认底图
-        this.switchBasemap('osm');
+        // Add default basemap (Google Satellite)
+        this.switchBasemap('satellite');
         
-        // 添加比例尺
+        // Add scale control
         L.control.scale({
             imperial: false,
             metric: true
@@ -32,43 +32,53 @@ class MapManager {
         return this.map;
     }
     
-    // 创建底图图层
+    // Create basemap layers
     createBasemapLayers() {
         for (const [key, config] of Object.entries(CONFIG.basemaps)) {
-            this.basemapLayers[key] = L.tileLayer(config.url, {
+            const options = {
                 attribution: config.attribution,
                 maxZoom: config.maxZoom
-            });
+            };
+            
+            // Add additional options for Google Maps
+            if (config.detectRetina) {
+                options.detectRetina = config.detectRetina;
+            }
+            if (config.subdomains) {
+                options.subdomains = config.subdomains;
+            }
+            
+            this.basemapLayers[key] = L.tileLayer(config.url, options);
         }
     }
     
-    // 切换底图
+    // Switch basemap
     switchBasemap(basemapKey) {
-        // 移除当前底图
+        // Remove current basemap
         if (this.currentBasemap) {
             this.map.removeLayer(this.currentBasemap);
         }
         
-        // 添加新底图
+        // Add new basemap
         if (this.basemapLayers[basemapKey]) {
             this.currentBasemap = this.basemapLayers[basemapKey];
             this.currentBasemap.addTo(this.map);
         }
     }
     
-    // 获取地图实例
+    // Get map instance
     getMap() {
         return this.map;
     }
     
-    // 飞到指定位置
+    // Fly to specified location
     flyTo(latlng, zoom = 15) {
         this.map.flyTo(latlng, zoom, {
             duration: 1.5
         });
     }
     
-    // 适应边界
+    // Fit bounds
     fitBounds(bounds, options = {}) {
         this.map.fitBounds(bounds, {
             padding: [50, 50],
