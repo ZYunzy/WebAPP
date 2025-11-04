@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贫民窟地图系统 - Slum Mapping</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+    
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 地图容器 -->
+    <div id="map"></div>
+    
+    <!-- 图层控制面板 -->
+    <div id="layer-control">
+        <h3>🗺️ 图层控制</h3>
+        
+        <!-- 底图选择 -->
+        <div class="layer-section">
+            <h4>底图图层</h4>
+            <label>
+                <input type="radio" name="basemap" value="osm" checked>
+                <span>OpenStreetMap</span>
+            </label>
+            <label>
+                <input type="radio" name="basemap" value="satellite">
+                <span>卫星影像</span>
+            </label>
+            <label>
+                <input type="radio" name="basemap" value="terrain">
+                <span>地形图</span>
+            </label>
+            <label>
+                <input type="radio" name="basemap" value="dark">
+                <span>暗色主题</span>
+            </label>
+        </div>
+        
+        <!-- 数据图层 -->
+        <div class="layer-section">
+            <h4>数据图层</h4>
+            <label>
+                <input type="checkbox" id="layer-slums" checked>
+                <span>贫民窟区域</span>
+            </label>
+            <label>
+                <input type="checkbox" id="layer-buildings" checked>
+                <span>建筑物</span>
+            </label>
+            <label>
+                <input type="checkbox" id="layer-infrastructure">
+                <span>基础设施</span>
+            </label>
+            <label>
+                <input type="checkbox" id="layer-population">
+                <span>人口密度</span>
+            </label>
+        </div>
+        
+        <!-- 图例 -->
+        <div class="layer-section">
+            <h4>图例</h4>
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #e74c3c;"></span>
+                    <span>高风险区域</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #f39c12;"></span>
+                    <span>中等风险</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #27ae60;"></span>
+                    <span>低风险区域</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 信息面板 -->
+    <div id="info-panel">
+        <h3>📊 地图信息</h3>
+        <div id="info-content">
+            <p>点击地图上的区域查看详细信息</p>
+        </div>
+    </div>
+    
+    <!-- 加载指示器 -->
+    <div id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>加载中...</p>
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+    
+    <!-- 自定义脚本 -->
+    <script src="js/config.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/layers.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

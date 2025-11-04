@@ -1,32 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>Interactive Campus Map</title>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0;url=frontend/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css" />
+    <title>贫民窟地图系统 - 正在跳转...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin: 0 0 20px 0;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: white;
+            text-decoration: underline;
+            font-size: 1.1em;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="map"></div>
-    <div id="layer-control">
-        <h3>图层控制</h3>
-        <div class="layer-section">
-            <h4>底图</h4>
-            <label><input type="radio" name="basemap" value="osm" checked> OpenStreetMap</label>
-            <label><input type="radio" name="basemap" value="google-satellite"> Google 卫星影像</label>
-            <label><input type="radio" name="basemap" value="google-roadmap"> Google 地图</label>
-        </div>
-        <div class="layer-section">
-            <h4>数据图层</h4>
-            <label><input type="checkbox" id="layer-boundary" checked> 范围边界</label>
-            <label><input type="checkbox" id="layer-buildings" checked> 建筑物</label>
-            <label><input type="checkbox" id="layer-countries" checked> 国家</label>
-            <label><input type="checkbox" id="layer-user-points" checked> 用户兴趣点</label>
-        </div>
+    <div class="container">
+        <h1>🗺️ 贫民窟地图系统</h1>
+        <div class="spinner"></div>
+        <p>正在跳转到地图页面...</p>
+        <p>如果没有自动跳转，请点击: <a href="frontend/">进入地图</a></p>
     </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
